@@ -100,7 +100,7 @@ public class Main {
             .flatMap((String s) -> {
               Stream.Builder<Pair> builder = Stream.builder();
               String last = null;
-              for (String current : s.toLowerCase().replaceAll("https?://.+\\b", "").replaceAll("[^a-z@ ]", "").split(" ")) {
+              for (String current : s.toLowerCase().replaceAll("https?://.+\\b", "").replaceAll("[^a-z@# ]", "").split(" ")) {
                 if (current.equals("")) continue;
                 if (last == null) {
                   builder.add(new Pair("", current));
