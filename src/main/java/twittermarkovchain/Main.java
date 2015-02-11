@@ -3,6 +3,9 @@ package twittermarkovchain;
 import com.google.common.collect.ImmutableMap;
 import com.sampullara.cli.Args;
 import com.sampullara.cli.Argument;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -130,8 +133,12 @@ public class Main {
 
     // Random!
     Random random = new SecureRandom();
-
-    for (int i = 0; i < 10; i++) {
+    
+    // Check using language
+    JLanguageTool language = new JLanguageTool(Language.ENGLISH);
+    
+    for (int i = 0; i < 1000; i++) {
+      StringBuilder sb = new StringBuilder();
       // Now that we have the frequency map we can generate a message.
       String word = "";
       do {
@@ -149,10 +156,21 @@ public class Main {
           }
           current += value;
         }
-        System.out.print(word);
-        System.out.print(" ");
+        if (sb.length() > 0) {
+          if (word.length() > 0) {
+            sb.append(" ");
+            sb.append(word);
+          }
+        } else {
+          sb.append(word.substring(0, 1).toUpperCase());
+          if (word.length() > 1) sb.append(word.substring(1));
+        }
       } while (!word.equals(""));
-      System.out.println();
+      sb.append(".");
+      List<RuleMatch> check = language.check(sb.toString());
+      if (check.isEmpty()) {
+        System.out.println(sb);
+      }
     }
   }
 }
