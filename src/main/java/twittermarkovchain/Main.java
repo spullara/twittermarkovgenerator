@@ -1,3 +1,8 @@
+/*
+ Apache Source License 2.0
+ See LICENSE
+ */
+
 package twittermarkovchain;
 
 import com.google.common.collect.ImmutableMap;
